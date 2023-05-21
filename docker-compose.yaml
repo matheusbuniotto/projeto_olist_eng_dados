@@ -1,0 +1,32 @@
+version: '3'
+services:
+  pgdatabase:
+    container_name: olist
+    image: postgres:11-alpine3.17
+    env_file:
+      - .env
+    volumes:
+      - "./init-dump:/docker-entrypoint-initdb.d"
+    ports:
+      - "5434:5434"
+
+  sqlpad:
+    image: sqlpad/sqlpad:5.5
+    depends_on:
+      - pgdatabase
+    ports:
+      - "3000:3000"
+    environment:
+      SQLPAD_AUTH_DISABLED: "true"
+      SQLPAD_AUTH_DISABLED_DEFAULT_ROLE: "admin"
+      SQLPAD_APP_LOG_LEVEL: debug
+      SQLPAD_WEB_LOG_LEVEL: warn
+      SQLPAD_CONNECTIONS__psql__name: "olist_datalake"
+      SQLPAD_CONNECTIONS__psql__driver: postgres
+      SQLPAD_CONNECTIONS__psql__host: localhost
+      SQLPAD_CONNECTIONS__psql__database: olist
+      SQLPAD_CONNECTIONS__psql__username: root
+      SQLPAD_CONNECTIONS__psql__password: root
+      SQLPAD_CONNECTIONS__psql__multiStatementTransactionEnabled: "true"
+      SQLPAD_CONNECTIONS__psql__idleTimeoutSeconds: 8640
+
