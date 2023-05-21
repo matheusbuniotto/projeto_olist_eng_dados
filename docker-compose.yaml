@@ -2,7 +2,7 @@ version: '3'
 services:
   pgdatabase:
     container_name: olist
-    image: postgres:11-alpine3.17
+    image: postgres:13-alpine3.17
     env_file:
       - .env
     volumes:
