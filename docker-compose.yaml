@@ -6,9 +6,10 @@ services:
     env_file:
       - .env
     volumes:
-      - "./init-dump:/docker-entrypoint-initdb.d"
+      #- "./init_scripts:/docker-entrypoint-initdb.d"
+      - "./olist_pg:/var/lib/postgresql/data:rw"
     ports:
-      - "5432:5432"
+      - "5434:5434"
 
   sqlpad:
     image: sqlpad/sqlpad:5.5
@@ -23,7 +24,7 @@ services:
       SQLPAD_WEB_LOG_LEVEL: warn
       SQLPAD_CONNECTIONS__psql__name: "olist_datalake"
       SQLPAD_CONNECTIONS__psql__driver: postgres
-      SQLPAD_CONNECTIONS__psql__host: localhost
+      SQLPAD_CONNECTIONS__psql__host: olist
       SQLPAD_CONNECTIONS__psql__database: olist
       SQLPAD_CONNECTIONS__psql__username: root
       SQLPAD_CONNECTIONS__psql__password: root
