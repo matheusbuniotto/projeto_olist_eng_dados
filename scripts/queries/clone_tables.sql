@@ -1,0 +1,1 @@
+CREATE TABLE warehouse.sellers_performance LIKE sellers_performance;
