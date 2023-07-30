@@ -45,7 +45,7 @@ Na orquestração desse projeto utilizei o mage, um orquestrador open-source com
 ![pipeline](presets/tree_view.png)
 
 
-Nas etapas descritas abaixo irei ignorar os steps no mage que são sensores, ou seja, fazem uma validação se algo ocorreu antes da execução dos steps dependentes. No projeto incluí 2 sensores (em rosa na árvore de fluxo) e presentes em `tasks_scripts/sensors`, um deles valida se já existem os arquivos csv antes de fazer o download e o outro valida se as tabelas já existem no lake antes de realizar a carga.
+Nas etapas descritas abaixo irei ignorar os steps no mage que são sensores, ou seja, fazem uma validação se algo ocorreu antes da execução dos steps dependentes. No projeto incluí 2 sensores (em rosa na árvore de fluxo) e presentes em `tasks_scripts/sensors`, um deles valida se já existem os arquivos csv antes de fazer o download e o outro valida se a tabelas já existem no lake antes de realizar a carga.
 
 ### Etapa 1 - Extração - Task bashDownload @data_loader 
 Uma task de extração é descrita como um @data_loader no mage. Um dataloader é descrito como:
@@ -261,11 +261,24 @@ Agora com os dados no warehouse vamos checar se as tabelas estão populadas. Out
 
 ![resultado da query](presets/check_warehouse.png)
 
+### Consumo no Jupyter 
+Iniciando jupyter 
+`docker run --network mage-app -p 8888:8888 -v ${PWD}:/home/jovyan/work jupyter/minimal-notebook`
+Vendo alguns dados que foram enviados ao lake
+![jupyter](presets/jupyter.png)
+
+### Consumo no PowerBI
+Fiz uma visualização extremamente simples para validar se os dados estavam chegando no conector do power bi, tudo certo!
+![jupyter](presets/power-bi.png)
+
+
+
 ## Próximas etapas
 Como próximas etapas desse projeto tenho duas coisas em mente:
 - 1. Analisar os dados e produtizar um modelo simples de clusterização de clientes (ideia inicial) utilizando Python e fazendo o deploy no Mage.
-- 2. Incluir alguma step de transformação com dbt 
-- 3. O datalake e o warehouse ficaram na nuvem e disponíveis para consumo. Nesse caso, provavelmente vou optar pelo Azure ou GCP (estou estudando como fazer isso sem estourar o cartão 💸💸💸)
+- 2. Estruturar os dashboards no PowerBI
+- 3. Incluir alguma step de transformação com dbt 
+- 4. O datalake e o warehouse ficarão na nuvem e disponíveis para consumo. Nesse caso, provavelmente vou optar pelo Azure ou GCP (estou estudando como fazer isso sem estourar o cartão 💸💸💸)
 
 Tem alguma sujestão? Manda pra mim! 
 
