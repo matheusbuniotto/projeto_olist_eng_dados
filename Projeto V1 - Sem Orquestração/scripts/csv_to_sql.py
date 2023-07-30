@@ -4,7 +4,7 @@ from sqlalchemy import create_engine, text, inspect
 from etl_functions import lake_to_warehouse 
 
 
-# Configure MySQL connection
+# Configs do mysql
 mysql_username = 'root'
 mysql_password = 'root'
 mysql_host = 'mysql'
@@ -12,54 +12,51 @@ mysql_port = 3306
 mysql_database = 'lake'
 mysql_database_2 = 'warehouse'
 
-# Folder path containing CSV files
+# Pasta com csvs
 folder_path = '/opt/src/data/'
 
-# Get a list of all CSV files in the folder
+# Coleta a lista de arquivos csv na pasts
 csv_files = [file for file in os.listdir(folder_path) if file.endswith('.csv')]
 
-# Create a MySQL connection
+# Conexão com mysql
 mysql_url = f"mysql+mysqlconnector://{mysql_username}:{mysql_password}@{mysql_host}:{mysql_port}/{mysql_database}"
 engine = create_engine(mysql_url)
 
-# Iterate over each CSV file and load it into MySQL
+# Itera a lista de arquivos csv e realiza as transformações
 for csv_file in csv_files:
-    # Remove the prefixes and suffixes from the file name
+    # Coleta o nome do arquivo sem olist e dataset
     table_name = os.path.splitext(csv_file)[0]
     table_name = table_name.replace('olist_', '')
     table_name = table_name.replace('_dataset', '')
 
-    # Read the CSV file into a DataFrame
+    # Le o csv
     file_path = os.path.join(folder_path, csv_file)
     data = pd.read_csv(file_path)
 
-    # Load the DataFrame into MySQL
+    # Carga no sql
     data.to_sql(name=table_name,
                 con=engine,
                 if_exists='replace',
                 index=False,
                 chunksize=10000)
     
-    print(f"{table_name} created in {mysql_database}")
+    print(f"{table_name} criado em {mysql_database}")
 
 
+#Le os comandos de criação das tabelas 
 fd = open('/opt/src/scripts/create_tables.sql', 'r')
 sqlFile = fd.read()
 fd.close()
 
-
+# le os comandos em SQL dividindo por ;
 sqlCommands = sqlFile.split(';') 
 sqlCommands
 
+# Executa os comandos SQL
 with engine.connect() as conn:
     for command in sqlCommands:
-        # This will skip and report errors
-        # For example, if the tables do not yet exist, this will skip over
-        # the DROP TABLE command
         conn.execute(text(command))
-
-
-
-                
+        
+# Função que faz a carga das tabelas do lake para o warehouse 
 lake_to_warehouse()
 
