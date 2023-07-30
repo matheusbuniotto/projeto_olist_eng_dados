@@ -11,7 +11,6 @@ script/initdb.sql
 CREATE DATABASE IF NOT EXISTS lake;
 CREATE DATABASE IF NOT EXISTS warehouse;
 USE lake;
-
 ```
 
 #### Cria a network que será utilizada pelo Mage e pelo MySQL
@@ -48,7 +47,6 @@ O task executa a função:
 def load_data(*args, **kwargs):
     bashCommand = bash_script
     os.system(bashCommand)
-
 ```
 
 ### Etapa 2 - Carga - Tasks de @data_exporter
