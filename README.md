@@ -45,7 +45,7 @@ Na orquestração desse projeto utilizei o mage, um orquestrador open-source com
 ![pipeline](presets/tree_view.png)
 
 
-Nas etapas descritas abaixo irei ignorar os steps no mage que são sensores, ou seja, fazem uma validação se algo ocorreu antes da execução dos steps dependentes. No projeto incluí 2 sensores (em rosa na árvore de fluxo), um deles valida se já existem os arquivos csv antes de fazer o download e o outro valida se as tabelas já existem no lake antes de realizar a carga.
+Nas etapas descritas abaixo irei ignorar os steps no mage que são sensores, ou seja, fazem uma validação se algo ocorreu antes da execução dos steps dependentes. No projeto incluí 2 sensores (em rosa na árvore de fluxo) e presentes em `tasks_scripts/sensors`, um deles valida se já existem os arquivos csv antes de fazer o download e o outro valida se as tabelas já existem no lake antes de realizar a carga.
 
 ### Etapa 1 - Extração - Task bashDownload @data_loader 
 Uma task de extração é descrita como um @data_loader no mage. Um dataloader é descrito como:
@@ -75,7 +75,7 @@ O arquivo olist_order_payments_dataset.csv é lido e enviado para o lake como um
 
 Respectivamente, as task `send_to_lake_products` faz envio das tabelas de produto e a `send_to_lake_others` faz envio das tabelas restantes, com exceção do arquivo de geolocalização que não será carregado para utilização. 
 
-Os scripts dos @data_exporter se encontram em olist/dataexporters
+Os scripts dos @data_exporter se encontram em tasks_scripts/data_exporter
 
 ```
 @data_exporter
@@ -125,9 +125,12 @@ Nessa task irei consumir os dados do lake criados na etapa anterior e através d
 
 Ao contrário das tasks anteriores, essa task é puramente em SQL, aqui vamos criar 4 novas tabelas. São elas:
 
-- sellers_performance: tabela agregada e enriquecida do vendedor (seller_id) contendo as dimensões do vendedor e as métricas de pedidos, pedidos entregues, pedidos cancelados, número de itens distintos vendidos, ticket médio, quantidade de avaliações, média de avaliações, total vendidos em $, categoria mais vendida por ele.\
-- paid_orders: tabela enriquecida de pedidos considerando apenas os pedidos com pagamento confirmado e não cancelados, além disso contém informações do vendedor, comprador, frete e pagamento.\
-- order_items_detailed: tabela dos itens comprados (ordem_items) enriquecida com informações do produto, comprador, vendedor e frete. \
+- sellers_performance: tabela agregada e enriquecida do vendedor (seller_id) contendo as dimensões do vendedor e as métricas de pedidos, pedidos entregues, pedidos cancelados, número de itens distintos vendidos, ticket médio, quantidade de avaliações, média de avaliações, total vendidos em $, categoria mais vendida por ele.
+
+- paid_orders: tabela enriquecida de pedidos considerando apenas os pedidos com pagamento confirmado e não cancelados, além disso contém informações do vendedor, comprador, frete e pagamento.
+
+- order_items_detailed: tabela dos itens comprados (ordem_items) enriquecida com informações do produto, comprador, vendedor e frete. 
+d
 - customer_experience: tabela contendo o id do usuário, nota média das avaliações, quantidade de avaliações, data da última compra, número de compras e LTV (total comprado ao longo da vida).
 
 Essas novas tabelas contém muitas das informações necessárias para analistas e pessoas de negócio realizarem as análises necessárias sem a necessidade de fazer inúmeros JOINs e correr o risco de trazer informações inválidas ou erradas. Os dados estão prontos para consumos de forma simples e clara.
@@ -168,6 +171,9 @@ CREATE TABLE IF NOT EXISTS sellers_performance AS (
     GROUP BY 1, 2, 3, most_sold_category
 );
 ```
+
+O script completo de transformação @transformer se encontram em `tasks_scripts/transfomers`
+
 ### Etapa 4 - Validação - Task validation @data_loader
 Nessa etapa utilizo a biblioteca great_expectations para validar os dados antes de levamos para o data warehouse. Essa biblioteca permite validar os dados de acordo com algumas premissas que desejamos, por exemplo, a coluna seller_id na tabela seller_performance no nosso data lake não pode conter nenhum valor nulo.
 
@@ -258,7 +264,8 @@ Agora com os dados no warehouse vamos checar se as tabelas estão populadas. Out
 ## Próximas etapas
 Como próximas etapas desse projeto tenho duas coisas em mente:
 - 1. Analisar os dados e produtizar um modelo simples de clusterização de clientes (ideia inicial) utilizando Python e fazendo o deploy no Mage.
-- 2. O datalake e o warehouse ficaram na nuvem e disponíveis para consumo. Nesse caso, provavelmente vou optar pelo Azure ou GCP (estou estudando como fazer isso sem estourar o cartão 💸💸💸)
+- 2. Incluir alguma step de transformação com dbt 
+- 3. O datalake e o warehouse ficaram na nuvem e disponíveis para consumo. Nesse caso, provavelmente vou optar pelo Azure ou GCP (estou estudando como fazer isso sem estourar o cartão 💸💸💸)
 
 Tem alguma sujestão? Manda pra mim! 
 
