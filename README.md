@@ -1,5 +1,5 @@
 # Projeto de Engenharia de dados com os dados do ecommerce Olist.
-Esse projeto foi realizado por mim como forma de estudo de engenharia de dados, com foco nos processos de **ETL e orquestração utilizando Python, SQL, Docker, Bash e Mage**. A proposta do projeto é criar um pipeline que consome os dados, realiza a carga em um data lake, realiza as transformações e validações, e em sequência disponibiliza os dados em uma data warehouse para consumo analítico.
+Esse projeto foi realizado por mim como forma de estudo de engenharia de dados, com foco nos processos de **ETL e orquestração utilizando Python, SQL, Docker, Bash e Mage**. A proposta do projeto é criar um pipeline que consome os dados, realiza a carga em um data lake, realiza as transformações e validações, e em sequência disponibiliza os dados em uma data warehouse para consumo analítico. Ele se baseia em um projeto anterior que realizei no meu TCC curso de Análise de dadosna PUC-MG, porém agora com mais experiência e conhecimento, acredito que consigo melhorar o que havia desenvolvido anteriormente.
 
 Overview do projeto
 ![overview do projeto](presets/overview.png)
