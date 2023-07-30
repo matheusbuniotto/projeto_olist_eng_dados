@@ -116,16 +116,18 @@ def export_data_to_mysql_others(df: pd.DataFrame, **kwargs) -> None:
                     index=False,
                     if_exists='replace',  # Raise an error if the table name already exists
             )
-
 ```
+
+Saída no log do mage.
+![log](presets/loader_lake_done.png) \
 ### Etapa 3 - Transformação - Tasks de @transformer
 Nessa task irei consumir os dados do lake criados na etapa anterior e através deles criar novas tabelas com modelagens analíticas (ainda no lake). Além disso, nas novas tabelas deixamos de lado a modelagem relacional e passamos a consolidar os dados em uma Wide Table analítica que facilita o consumo dos usuários. Hoje, com a evolução do armazenamento em nuvem, temos à nossa disposição uma performance significativamente melhor, bem como métodos de otimização que tornam viável o uso dessa modelagem wide.
 
 Ao contrário das tasks anteriores, essa task é puramente em SQL, aqui vamos criar 4 novas tabelas. São elas:
 
-- sellers_performance: tabela agregada e enriquecida do vendedor (seller_id) contendo as dimensões do vendedor e as métricas de pedidos, pedidos entregues, pedidos cancelados, número de itens distintos vendidos, ticket médio, quantidade de avaliações, média de avaliações, total vendidos em $, categoria mais vendida por ele.
-- paid_orders: tabela enriquecida de pedidos considerando apenas os pedidos com pagamento confirmado e não cancelados, além disso contém informações do vendedor, comprador, frete e pagamento.
-- order_items_detailed: tabela dos itens comprados (ordem_items) enriquecida com informações do produto, comprador, vendedor e frete. 
+- sellers_performance: tabela agregada e enriquecida do vendedor (seller_id) contendo as dimensões do vendedor e as métricas de pedidos, pedidos entregues, pedidos cancelados, número de itens distintos vendidos, ticket médio, quantidade de avaliações, média de avaliações, total vendidos em $, categoria mais vendida por ele.\
+- paid_orders: tabela enriquecida de pedidos considerando apenas os pedidos com pagamento confirmado e não cancelados, além disso contém informações do vendedor, comprador, frete e pagamento.\
+- order_items_detailed: tabela dos itens comprados (ordem_items) enriquecida com informações do produto, comprador, vendedor e frete. \
 - customer_experience: tabela contendo o id do usuário, nota média das avaliações, quantidade de avaliações, data da última compra, número de compras e LTV (total comprado ao longo da vida).
 
 Essas novas tabelas contém muitas das informações necessárias para analistas e pessoas de negócio realizarem as análises necessárias sem a necessidade de fazer inúmeros JOINs e correr o risco de trazer informações inválidas ou erradas. Os dados estão prontos para consumos de forma simples e clara.
@@ -251,7 +253,16 @@ def lake_to_warehouse(*args, **kwargs):
 ### Fim do ETL! Os dados estão no warehouse
 Agora com os dados no warehouse vamos checar se as tabelas estão populadas. Outro ponto legal do mage é que podemos fazer pequenas análises dentro da própria UI com as funções de chart. Abaixo, fiz um select * FROM warehouse.sellers_performance e fiz uma vizualição em formato de tabela e um histograma do campo canceled_order dos vendedores. 
 
-![Alt text](image.png)
+![resultado da query](presets/check_warehouse.png)
+
+## Próximas etapas
+Como próximas etapas desse projeto tenho duas coisas em mente:
+- 1. Analisar os dados e produtizar um modelo simples de clusterização de clientes (ideia inicial) utilizando Python e fazendo o deploy no Mage.
+- 2. O datalake e o warehouse ficaram na nuvem e disponíveis para consumo. Nesse caso, provavelmente vou optar pelo Azure ou GCP (estou estudando como fazer isso sem estourar o cartão 💸💸💸)
+
+Tem alguma sujestão? Manda pra mim! 
+
+
 
 
 
