@@ -1,9 +1,22 @@
+Também disponível no [medium](https://matheus-buniotto.medium.com/projeto-engenharia-de-dados-olist-com-mage-c202ebe5481) 
 # Projeto de Engenharia de dados com os dados do ecommerce Olist.
 Esse projeto foi realizado por mim como forma de estudo de engenharia de dados, com foco nos processos de **ETL e orquestração utilizando Python, SQL, Docker, Bash e Mage**. A proposta do projeto é criar um pipeline que consome os dados, realiza a carga em um data lake, realiza as transformações e validações, e em sequência disponibiliza os dados em uma data warehouse para consumo analítico. Ele se baseia em um projeto anterior que realizei no meu TCC curso de Análise de dadosna PUC-MG, porém agora com mais experiência e conhecimento, acredito que consigo melhorar o que havia desenvolvido anteriormente.
 
+
 Overview do projeto
 ![overview do projeto](presets/overview.png)
-
+Os dados utilizados no projeto estão disponíveis no [kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
+```
+olist_customers_dataset.csv
+olist_sellers_dataset.csv
+olist_order_reviews_dataset.csv
+olist_order_items_dataset.csv
+olist_products_dataset.csv
+olist_geolocation_dataset.csv
+product_category_name_translation.csv
+olist_orders_dataset.csv
+olist_order_payments_dataset.csv
+```
 ## Etapas do projeto
 1 - Configuração da imagem e network docker\
 2 - Orquestração utilizando mage\
