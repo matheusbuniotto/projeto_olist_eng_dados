@@ -5,11 +5,12 @@ Overview do projeto
 ![overview do projeto](presets/overview.png)
 
 ## Etapas do projeto
-1 - Configuração da imagem e network docker
-2 - Orquestração utilizando mage
-    2.1 - Criação dos scripts de coleta, carga, extração e carga
-    2.1 - Criação das tasks no mage
-    2.2 - Criação das validações e sensores
+1 - Configuração da imagem e network docker\
+2 - Orquestração utilizando mage\
+    2.1 - Criação dos scripts de coleta, carga, extração e carga\
+    2.1 - Criação das tasks no mage\
+    2.2 - Criação das validações e sensores\
+3 - Consumo dos dados, exemplo com jupyter e powerbi
 
 ## 1- Imagem com MySQL e script init com criação do lake e warehouse vazios.
 Dockerfile contendo imagem MySQL (mysql:8.0.33-debian) e configurações, com script SQL para criação das bases na inizaliação do servidor. 
