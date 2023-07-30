@@ -277,11 +277,11 @@ Fiz uma visualização extremamente simples para validar se os dados estavam che
 ## Próximas etapas
 Como próximas etapas desse projeto tenho duas coisas em mente:
 - 1. Analisar os dados e produtizar um modelo simples de clusterização de clientes (ideia inicial) utilizando Python e fazendo o deploy no Mage.
-- 2. Estruturar os dashboards no PowerBI
+- 2. Estruturar os dashboards no PowerBI (já fiz na primeira versão desse projeto, porém a modelagem está diferente e mais performáticas nessa nova versão)
 - 3. Incluir alguma step de transformação com dbt 
 - 4. O datalake e o warehouse ficarão na nuvem e disponíveis para consumo. Nesse caso, provavelmente vou optar pelo Azure ou GCP (estou estudando como fazer isso sem estourar o cartão 💸💸💸)
 
-Tem alguma sujestão? Manda pra mim! 
+Tem alguma sugestão? Manda pra mim! 
 
 
 
