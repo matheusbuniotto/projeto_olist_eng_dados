@@ -1,4 +1,4 @@
-# Projeto ELTL Olist
+# Projeto ELTL Olist sem orquestração (v1)
 
 ### ETLT
 Etapas:
@@ -8,12 +8,3 @@ Etapas:
 4. Transformação (Transform) das tabela no datalake para solução de problemas de négocio, gerando novas tabelas mais informativas e agregadas (Wide Fact Table)
 5. Criação (Load) das novas tabela no data warehouse para consulta
 
-### Testes e validação [to-do]
-- Validação das tabelas no warehouse usando Great Expectations (exemplos)
-
-### Orquestração
-- Orquestrar a execução dos scripts com airflow ou mage
-
-### Visualização 
-
-## Análises 

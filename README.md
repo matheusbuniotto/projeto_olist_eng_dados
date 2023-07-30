@@ -1,8 +1,17 @@
 # Projeto de Engenharia de dados com os dados do ecommerce Olist.
 Esse projeto foi realizado por mim como forma de estudo de engenharia de dados, com foco nos processos de **ETL e orquestração utilizando Python, SQL, Docker, Bash e Mage**. A proposta do projeto é criar um pipeline que consome os dados, realiza a carga em um data lake, realiza as transformações e validações, e em sequência disponibiliza os dados em uma data warehouse para consumo analítico.
 
-## Etapas 
-### Imagem com MySQL e script init com criação do lake e warehouse vazios.
+Overview do projeto
+[overview do projeto](presets\overview.png)\
+
+## Etapas do projeto
+1 - Configuração da imagem e network docker
+2 - Orquestração utilizando mage
+    2.1 - Criação dos scripts de coleta, carga, extração e carga
+    2.1 - Criação das tasks no mage
+    2.2 - Criação das validações e sensores
+
+## 1- Imagem com MySQL e script init com criação do lake e warehouse vazios.
 Dockerfile contendo imagem MySQL (mysql:8.0.33-debian) e configurações, com script SQL para criação das bases na inizaliação do servidor. 
 
 ```
@@ -30,7 +39,7 @@ docker run --network mage-app -it -p 6789:6789 -v ${PWD}:/home/src `
 ```
 Pronto, agora temos nosso servidor em MySQL de pé e nosso orquestrador Mage funcionando em *http://localhost:6789/* 
 
-# Regendo a orquestra
+## 2 - Regendo a orquestra
 Na orquestração desse projeto utilizei o mage, um orquestrador open-source que promete ser um substitudo mais moderno ao airflow, então resolvi fazer o teste! 
 
 Nas etapas descritas abaixo irei ignorar os steps no mage que são sensores, ou seja, fazem uma validação se algo ocorreu antes da execução dos steps dependentes. No projeto incluí 2 sensores (em rosa na árvore de fluxo), um deles valida se já existem os arquivos csv antes de fazer o download e o outro valida se as tabelas já existem no lake antes de realizar a carga.
