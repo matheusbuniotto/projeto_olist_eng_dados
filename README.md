@@ -2,7 +2,7 @@
 Esse projeto foi realizado por mim como forma de estudo de engenharia de dados, com foco nos processos de **ETL e orquestração utilizando Python, SQL, Docker, Bash e Mage**. A proposta do projeto é criar um pipeline que consome os dados, realiza a carga em um data lake, realiza as transformações e validações, e em sequência disponibiliza os dados em uma data warehouse para consumo analítico.
 
 Overview do projeto
-[overview do projeto](presets/overview.png)
+![overview do projeto](presets/overview.png)
 
 ## Etapas do projeto
 1 - Configuração da imagem e network docker
@@ -42,7 +42,7 @@ Pronto, agora temos nosso servidor em MySQL de pé e nosso orquestrador Mage fun
 ## 2 - Regendo a orquestra
 Na orquestração desse projeto utilizei o mage, um orquestrador open-source com proposta semelhante ao airflow, porém com algumas diferenças e uma maior facilidade para projetos pequenos, na minha opnião. O pipeline final do projeto ficou da seguinte forma (tree view).
 
-[pipeline](presets/tree_view.png)
+![pipeline](presets/tree_view.png)
 
 
 Nas etapas descritas abaixo irei ignorar os steps no mage que são sensores, ou seja, fazem uma validação se algo ocorreu antes da execução dos steps dependentes. No projeto incluí 2 sensores (em rosa na árvore de fluxo), um deles valida se já existem os arquivos csv antes de fazer o download e o outro valida se as tabelas já existem no lake antes de realizar a carga.
