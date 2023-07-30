@@ -1,0 +1,194 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - bash_download
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: csvSensor
+  retry_config: null
+  status: updated
+  type: sensor
+  upstream_blocks: []
+  uuid: csvsensor
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - lakesensor
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: bash_download
+  retry_config: null
+  status: executed
+  type: data_loader
+  upstream_blocks:
+  - csvsensor
+  uuid: bash_download
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - send_to_lake_orders_table
+  - send_to_lake_others
+  - send_to_lake_products_tables
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: lakeSensor
+  retry_config: null
+  status: executed
+  type: sensor
+  upstream_blocks:
+  - bash_download
+  uuid: lakesensor
+- all_upstream_blocks_executed: false
+  color: null
+  configuration:
+    file_path: null
+  downstream_blocks:
+  - analytical_tables
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: send_to_lake_orders_table
+  retry_config: null
+  status: executed
+  type: data_exporter
+  upstream_blocks:
+  - lakesensor
+  uuid: send_to_lake_orders_table
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - analytical_tables
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: send_to_lake_others
+  retry_config: null
+  status: executed
+  type: data_exporter
+  upstream_blocks:
+  - lakesensor
+  uuid: send_to_lake_others
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - analytical_tables
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: send_to_lake_products_tables
+  retry_config: null
+  status: updated
+  type: data_exporter
+  upstream_blocks:
+  - lakesensor
+  uuid: send_to_lake_products_tables
+- all_upstream_blocks_executed: false
+  color: null
+  configuration:
+    data_provider: mysql
+    data_provider_profile: default
+    data_provider_table: lake
+    dbt: {}
+    export_write_policy: append
+    limit: 1000
+    use_raw_sql: true
+  downstream_blocks:
+  - validation
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: sql
+  name: analytical_tables
+  retry_config: null
+  status: executed
+  type: transformer
+  upstream_blocks:
+  - send_to_lake_products_tables
+  - send_to_lake_others
+  - send_to_lake_orders_table
+  uuid: analytical_tables
+- all_upstream_blocks_executed: false
+  color: null
+  configuration:
+    data_provider: mysql
+    data_provider_profile: default
+    export_write_policy: append
+  downstream_blocks:
+  - lake_to_warehouse
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: validation
+  retry_config: null
+  status: executed
+  type: data_loader
+  upstream_blocks:
+  - analytical_tables
+  uuid: validation
+- all_upstream_blocks_executed: false
+  color: yellow
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: lake_to_warehouse
+  retry_config: null
+  status: updated
+  type: custom
+  upstream_blocks:
+  - validation
+  uuid: lake_to_warehouse
+callbacks: []
+conditionals: []
+data_integration: null
+description: null
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions:
+  great_expectations:
+    blocks:
+    - all_upstream_blocks_executed: false
+      color: null
+      configuration: {}
+      downstream_blocks: []
+      executor_config: null
+      executor_type: local_python
+      has_callback: false
+      language: python
+      name: great_expecations
+      retry_config: null
+      status: not_executed
+      type: extension
+      upstream_blocks:
+      - validation
+      uuid: great_expecations
+name: OLIST ETL
+notification_config: {}
+retry_config:
+  delay: 60
+  retries: 2
+spark_config: {}
+tags: []
+type: python
+updated_at: '2023-07-30 11:38:43'
+uuid: olist_etl
+widgets: []

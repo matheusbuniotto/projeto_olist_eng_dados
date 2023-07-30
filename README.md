@@ -251,7 +251,7 @@ def lake_to_warehouse(*args, **kwargs):
 
 
 ### Fim do ETL! Os dados estão no warehouse
-Agora com os dados no warehouse vamos checar se as tabelas estão populadas. Outro ponto legal do mage é que podemos fazer pequenas análises dentro da própria UI com as funções de chart. Abaixo, fiz um select * FROM warehouse.sellers_performance e fiz uma vizualição em formato de tabela e um histograma do campo canceled_order dos vendedores. 
+Agora com os dados no warehouse vamos checar se as tabelas estão populadas. Outro ponto legal do mage é que podemos fazer pequenas análises dentro da própria UI com as funções de chart. Abaixo, fiz um `SELECT * FROM warehouse.sellers_performance` e uma vizualição em formato de tabela e um histograma do campo `canceled_order` dos vendedores. 
 
 ![resultado da query](presets/check_warehouse.png)
 
